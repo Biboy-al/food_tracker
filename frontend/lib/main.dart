@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screen/addMealWidget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -112,8 +113,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: (){
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => AddMealWidget()
+            ),
+          );
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
