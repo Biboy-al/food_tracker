@@ -18,7 +18,6 @@ class AddFormState extends State<AddForm>{
   final _formKey = GlobalKey<FormState>();
 
   String _name = "";
-  int _fiber = 0;
   int _carbs = 0;
   int _protien = 0;
   int _fats = 0;
@@ -48,21 +47,6 @@ class AddFormState extends State<AddForm>{
               _name = newValue!
             },
           ),
-
-         IntFormField(
-
-          label: "Fiber", 
-
-          hintText: "Type in kg",
-
-          validator: (value){
-             if(value == null || value.isEmpty){
-                return "Please Enter Somthing";
-              }
-          },
-          onSaved: (newValue) => {
-            _fiber = int.parse(newValue!)
-          }),
 
           IntFormField(
 
@@ -113,11 +97,6 @@ class AddFormState extends State<AddForm>{
         
               if(_formKey.currentState!.validate()){
                 _formKey.currentState!.save();
-                print('$_fiber');
-                print('$_name');
-                print('$_carbs');
-                print('$_fats');
-                print('$_protien');
 
                 Navigator.of(context).pop(); // close dialog
                 // A function that pushes the alert dialog to stack
