@@ -10,7 +10,6 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<TrackerDbContext>(options =>
 {
-    
     var conString = builder.Configuration.GetConnectionString("DefaultConnection");
     options.UseNpgsql(conString);
 });
@@ -21,6 +20,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+}
+
+await using (var serviceScope = app.Services.CreateAsyncScope())
+await using (var dbContext = serviceScope.ServiceProvider.GetRequiredService<TrackerDbContext>())
+{
+    await dbContext.Database.EnsureCreatedAsync();
 }
 
 app.UseHttpsRedirection();

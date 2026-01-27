@@ -14,4 +14,29 @@ public class TrackerDbContext(DbContextOptions<TrackerDbContext> options) : DbCo
         base.OnModelCreating(modelBuilder);
     }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder
+            .UseSeeding(async (context, _) =>
+            {
+                var sampleFood = await context.Set<Food>().FirstOrDefaultAsync(f => f.Name == "potato");
+                if(sampleFood == null)
+                {
+                    sampleFood = Food.Create("potato", 22, 33, 44);
+                    await context.Set<Food>().AddAsync(sampleFood);
+                    await context.SaveChangesAsync();
+                }
+            })
+            .UseAsyncSeeding( async (context, _, tokens) =>
+            {
+                 var sampleFood = await context.Set<Food>().FirstOrDefaultAsync(f => f.Name == "potato");
+                if(sampleFood == null)
+                {
+                    sampleFood = Food.Create("potato", 22, 33, 44);
+                    await context.Set<Food>().AddAsync(sampleFood);
+                    await context.SaveChangesAsync();
+                }
+            });   
+    }
+
 }
