@@ -8,6 +8,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddScoped<IFoodService, FoodService>();
+
 builder.Services.AddDbContext<TrackerDbContext>(options =>
 {
     var conString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -27,6 +29,8 @@ await using (var dbContext = serviceScope.ServiceProvider.GetRequiredService<Tra
 {
     await dbContext.Database.EnsureCreatedAsync();
 }
+
+app.MapFoodEndpoints();
 
 app.UseHttpsRedirection();
 
